@@ -2,11 +2,32 @@ using Microsoft.EntityFrameworkCore;
 using ProductCatalog.Api.Data;
 using ProductCatalog.Api.Models;
 var builder = WebApplication.CreateBuilder(args);
+
+/*builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
+{
+    // If tests already configured an InMemory provider, don't also add SqlServer
+   var isInMemory = options.Extensions.OfType<Microsoft.EntityFrameworkCore.InMemory.Infrastructure.Internal.InMemoryOptionsExtension>().Any();
+    if (isInMemory || builder.Environment.IsEnvironment("Testing"))
+    {
+        options.UseInMemoryDatabase("TestDb");
+        return;
+    }
+
+    options.UseSqlServer(builder.Configuration.GetConnectionString("CatalogDbConnection"));
+});*/
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    if (!options.IsConfigured)
+    {
+        options.UseSqlServer(builder.Configuration.GetConnectionString("CatalogDbConnection"));
+    }
+});
 // Configuration de la connexion SQL Server
-var connectionString =
+/*var connectionString =
 builder.Configuration.GetConnectionString("CatalogDbConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
-options.UseSqlServer(connectionString));
+options.UseSqlServer(connectionString));*/
 // Activation d'Endpoints API Explorer & Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
