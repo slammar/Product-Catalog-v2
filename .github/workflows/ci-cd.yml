@@ -67,7 +67,7 @@ jobs:
       run: dotnet build src/ProductCatalog.Api/ProductCatalog.Api.csproj --configuration Release --no-restore 
     - name: Run Integration Tests
       env:
-        ConnectionStrings__CatalogDbConnection:"Server=localhost,1433;Database=CatalogDB_Test;User Id=sa;Password=Password123!;TrustServerCertificate=True;MultipleActiveResultSets=true"
+        ConnectionStrings__CatalogDbConnection: "Server=localhost,1433;Database=CatalogDB_Test;User Id=sa;Password=Password123!;TrustServerCertificate=True;MultipleActiveResultSets=true"
       run: >
         dotnet test tests/ProductCatalog.Tests/ProductCatalog.Tests.csproj
         --no-build
